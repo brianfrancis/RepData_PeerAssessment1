@@ -10,7 +10,8 @@ output:
 
 ### Load the data.
 
-In this step we load the data from our working directory into a variable called activity.  
+In this step we load the data from our working directory into a variable called 
+        activity.  
 
 
 ```r
@@ -49,7 +50,8 @@ hist(total_per_day, main="Frequency of Total Steps per Day", xlab="Total Steps")
 
 ![plot of chunk Plot Histogram](figure/Plot Histogram-1.png) 
 
-### Calculate and report the mean and median of the total number of steps taken per day
+### Calculate and report the mean and median of the total number of steps taken 
+        per day
 
 Again, we have to be sure to specify removing NA values. 
 
@@ -65,17 +67,21 @@ The median of the total steps per day was 10395.
 
 ## What is the average daily activity pattern?
 
-### Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
+### Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) 
+        and the average number of steps taken, averaged across all days (y-axis)
 
 
 ```r
-mean_per_interval <- sapply(split(activity$steps, activity$interval), mean, na.rm=TRUE)
-plot(names(mean_per_interval), mean_per_interval, type="l", ylab="Number of Steps", xlab="Interval")
+mean_per_interval <- sapply(split(activity$steps, activity$interval), mean
+                            , na.rm=TRUE)
+plot(names(mean_per_interval), mean_per_interval, type="l"
+     , ylab="Number of Steps", xlab="Interval")
 ```
 
 ![plot of chunk Time Series Plot of Average Steps Per Day](figure/Time Series Plot of Average Steps Per Day-1.png) 
 
-### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+### Which 5-minute interval, on average across all the days in the dataset, 
+        contains the maximum number of steps?
 
 
 ```r
@@ -89,7 +95,8 @@ On average over all days, interval [835 to
 
 ## Imputing missing values
 
-### Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+### Calculate and report the total number of missing values in the dataset 
+        (i.e. the total number of rows with NAs)
 
 
 ```r
@@ -100,9 +107,15 @@ The number of rows with missing values is 2304.
 
 ### Devise a strategy for filling in all of the missing values in the dataset.
 
-We will fill in missing values with the median value over all days for values having the same interval as the missing value.
+We will fill in missing values with the median value over all days 
+for values having the same interval as the missing value.
 
-### Create a new dataset that is equal to the original dataset but with the missing data filled in.
+### Create a new dataset that is equal to the original dataset but 
+        with the missing data filled in.
+        
+In the following we calculate the median value over all days for each interval
+and then fill in any missing values with the corresponding median for the 
+interval in a new data frame called activity_no_missing.
 
 
 ```r
@@ -127,7 +140,8 @@ for(id in 1:length(median_by_interval))
 }
 ```
 
-### Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day.
+### Make a histogram of the total number of steps taken each day and Calculate 
+        and report the mean and median total number of steps taken per day.
 
 
 ```r
@@ -144,14 +158,20 @@ hist(total_no_missing, main="Frequency of Total Steps per Day",
 
 ![plot of chunk histogram and summaries for with missing values removed](figure/histogram and summaries for with missing values removed-1.png) 
 
-After replacing missing values, the mean of the total steps per day was 9503.8688525 and the median was 10395.  Replacing the missing values increased the average total per day by a small amount but had no impact on the median and only slight impact in the frequency.
+After replacing missing values, the mean of the total steps per day was 
+9503.8688525 and the median was 10395.  
+Replacing the missing values increased the average total per day by 
+a small amount but had no impact on the median and only slight 
+impact in the frequency.
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
 
-### Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+### Create a new factor variable in the dataset with two levels - "weekday" 
+        and "weekend" indicating whether a given date is a weekday or weekend day.
 
-Factor varaible weekday_type added to data frame indicating if the day is a weekday or weekend.
+Factor varaible weekday_type added to data frame indicating if the day is 
+a weekday or weekend.
 
 
 ```r
@@ -161,9 +181,12 @@ activity_no_missing$weekday_type[!weekend] <- "weekday"
 activity_no_missing$weekday_type <- as.factor(activity_no_missing$weekday_type)
 ```
 
-### Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
-
-
+### Make a panel plot containing a time series plot (i.e. type = "l") of 
+        the 5-minute interval (x-axis) and the average number of steps taken, 
+        averaged across all weekday days or weekend days (y-axis).
+        
+Take the average by weekday or weekend and interval 
+then plot over interval grouping by weekend or weekday.
 
 
 ```r
