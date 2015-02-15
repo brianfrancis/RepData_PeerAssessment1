@@ -127,7 +127,7 @@ for(id in 1:length(median_by_interval))
 }
 ```
 
-### Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
+### Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day.
 
 
 ```r
@@ -151,4 +151,30 @@ After replacing missing values, the mean of the total steps per day was 9503.868
 
 ### Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
+Factor varaible weekday_type added to data frame indicating if the day is a weekday or weekend.
+
+
+```r
+weekend <- weekdays(activity_no_missing$date) %in% c("Sunday", "Saturday") 
+activity_no_missing$weekday_type[weekend] <- "weekend" 
+activity_no_missing$weekday_type[!weekend] <- "weekday"
+activity_no_missing$weekday_type <- as.factor(activity_no_missing$weekday_type)
+```
+
 ### Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+
+
+
+
+```r
+avg_steps_weekdays <- 
+        aggregate(steps ~ interval + weekday_type, data=activity_no_missing
+                  , mean)
+
+library(lattice)
+
+xyplot(steps ~ interval | weekday_type, data = avg_steps_weekdays, type="l"
+       ,ylab="Number of steps", xlab="Interval", layout = c(1:2))
+```
+
+![plot of chunk time series plot by weekend weekday](figure/time series plot by weekend weekday-1.png) 
